@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -102,16 +103,23 @@ public class UserController {
         } else {
             theUser = userServiceImp.getUserByUserId(userId);
         }
+        Set<User> followers = userRelationService.getFollowers(theUser.getUserid());
+        if (theUser != user && !followers.contains(theUser)) {
+            modelAndView.addObject("follow", theUser);
+        }
         modelAndView.addObject("theUser", theUser);
+
         if (page == null) {
             page = 0;
         }
         if (page == 0) {
             modelAndView.addObject("userBlog", blogServiceImp.getAllBlogByUserId(theUser.getUserid()));
         } else if (page == 1) {
-            modelAndView.addObject("follows", userRelationService.getFollowers(theUser.getUserid()));
+            modelAndView.addObject("follows", followers);
         } else if (page == 2) {
             modelAndView.addObject("follows", userRelationService.getFollowings(theUser.getUserid()));
+        } else if (page == 3) {
+            modelAndView.addObject("all", userServiceImp.getAllUser());
         }
         modelAndView.addObject("page", page);
         return modelAndView;
@@ -122,6 +130,6 @@ public class UserController {
     public String follow(Integer userId) {
         User user = SessionUtil.getUserSession(request);
         userRelationService.follow(user.getUserid(), userId);
-        return "redirect:/user.html?userId=" + userId;
+        return "redirect:/user.html?userId=" + user.getUserid();
     }
 }

@@ -25,7 +25,7 @@
                          style="width: 150px;height:150px" alt="">
                     <br>
                      <p style="font-size: 18px"> ${theUser.username} </p>
-                    <c:if test="${user != theUser}">
+                    <c:if test="${null!=follow}">
                         <a href="follow.html?userId=${theUser.userid}">Follow</a>
                     </c:if>
 
@@ -36,14 +36,17 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-4 col-xs-4" align="center">
+                        <div class="col-md-4 col-xs-4" align="center" style="width: 20%">
                             <a href="user.html?userId=${theUser.userid}&page=0">Blog</a>
                         </div>
-                        <div class="col-md-4 col-xs-4" align="center">
+                        <div class="col-md-4 col-xs-4" align="center" style="width: 20%">
                             <a href="user.html?userId=${theUser.userid}&page=1">Followers</a>
                         </div>
-                        <div class="col-md-4 col-xs-4" align="center">
+                        <div class="col-md-4 col-xs-4" align="center" style="width: 20%">
                             <a href="user.html?userId=${theUser.userid}&page=2">Followings</a>
+                        </div>
+                        <div class="col-md-4 col-xs-4" align="center" style="width: 20%">
+                            <a href="user.html?userId=${theUser.userid}&page=3">All</a>
                         </div>
                     </div>
                 </div>
@@ -65,6 +68,20 @@
 
                 <c:if test="${page==1 || page == 2}">
                     <c:forEach var="f" items="${follows}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div align="center">
+                                    <img src="${pageContext.request.contextPath}/resource/pics/${f.headpic}.png"
+                                         style="width: 80px;height:80px" alt=""><br>
+                                    <a href="user.html?userId=${f.userid}" style="font-size: 18px">${f.username}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </c:if>
+
+                <c:if test="${page==3}">
+                    <c:forEach var="f" items="${all}">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div align="center">

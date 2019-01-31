@@ -7,6 +7,8 @@ import com.cyc.util.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImp implements UserService {
 
@@ -46,5 +48,10 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void loginSuccess(String username) {
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return userMapper.selectUserList();
     }
 }

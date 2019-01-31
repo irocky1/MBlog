@@ -2,6 +2,8 @@ package com.cyc.service;
 
 import com.cyc.pojo.User;
 
+import java.util.List;
+
 public interface UserService {
 
     void addUser(String username, String password, int headpic);
@@ -15,4 +17,6 @@ public interface UserService {
     User getUserByUserId(Integer userid);
 
     void loginSuccess(String username);
+
+    List<User> getAllUser();
 }
